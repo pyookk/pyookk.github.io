@@ -169,6 +169,26 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
 @keyframes floaty{0%{opacity:0;transform:translate(-50%,-30%) scale(.7)}20%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-110%)}}
 @keyframes pop{from{transform:scale(.5);opacity:0}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}}
+/* landscape: joystick left, kitchen centre, buttons right, tickets stacked beside the joystick */
+@media (orientation:landscape) and (max-height:820px){
+  #app{max-width:none;grid-template-columns:minmax(150px,auto) 1fr minmax(150px,auto);grid-template-rows:auto 1fr auto}
+  .hud{grid-column:1/4;grid-row:1;padding-block:6px 2px}
+  .orders{grid-column:1;grid-row:2;flex-wrap:wrap;align-content:flex-start;min-height:0;width:156px;gap:6px;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:0}
+  .ticket{flex:0 0 calc(50% - 3px)}
+  .ticket canvas{width:34px;height:34px}
+  .ticket span{font-size:9px}
+  .empty-orders{text-align:left}
+  .stage{grid-column:2;grid-row:2/4;padding:4px 6px 8px}
+  .pad{display:contents}
+  .joy{grid-column:1;grid-row:3;justify-self:center;align-self:end;margin:0 0 calc(10px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));width:min(128px,34vh);height:min(128px,34vh)}
+  .btns{grid-column:3;grid-row:2/4;align-self:end;justify-self:center;margin:0 max(14px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) 0}
+  .abtn{width:min(92px,26vh);height:min(92px,26vh);font-size:14px}
+  .cbtn{width:min(70px,20vh);height:min(70px,20vh);font-size:13px}
+  .screen{padding-left:max(18px,env(safe-area-inset-left,0px),calc((100% - 620px)/2));padding-right:max(18px,env(safe-area-inset-right,0px),calc((100% - 620px)/2))}
+  .brand canvas{width:150px;height:82px}
+  .brand h1{font-size:38px}
+  .float{top:30%}
+}
 @media (max-height:680px){.joy{width:108px;height:108px}.abtn{width:80px;height:80px}.cbtn{width:60px;height:60px}.orders{min-height:72px}.ticket canvas{width:36px;height:36px}}
 </style>
 
@@ -205,7 +225,7 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
     <div class="toggles"><button class="tog" id="togSnd"></button><button class="tog" id="togMus"></button></div>
     <div class="howto">
       <div class="flow" id="flow"></div>
-      <p><b>Ambil/Taruh</b> untuk memegang dan meletakkan barang. <b>Cetak</b> berkali-kali di talenan untuk membentuk adonan. Jangan biarkan kue terlalu lama di oven, nanti gosong!</p>
+      <p><b>Ambil/Taruh</b> untuk memegang dan meletakkan barang. <b>Cetak</b> berkali-kali di talenan untuk membentuk adonan. Jangan biarkan kue terlalu lama di oven, nanti gosong! Miringkan HP supaya dapurnya lebih besar.</p>
       <p class="note">Rekaman suara: Kenney, Bret Bernhoft, rubberduck (CC0, OpenGameArt).</p>
     </div>
   </section>
