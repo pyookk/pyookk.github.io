@@ -83,6 +83,11 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
 .bigbtn span{font-size:13px;color:var(--muted);font-weight:800}
 .bigbtn.solo .ic{background:var(--butter);color:var(--ink)}
 .bigbtn.duo .ic{background:var(--rasp);color:#fff}
+.bigbtn.rame .ic{background:var(--mint);color:var(--ink)}
+.roster{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.roster span{display:flex;align-items:center;gap:6px;background:var(--plum);border-radius:999px;padding:4px 10px 4px 4px;font-weight:900;font-size:12px}
+.roster i{width:22px;height:22px;border-radius:50%}
+.roster span.off{opacity:.35}
 .avs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
 .av{border-radius:16px;background:var(--plum-2);padding:6px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:900;font-size:12px;min-width:0}
 .av canvas{width:100%;max-width:76px;aspect-ratio:1}
@@ -190,6 +195,7 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
     <div class="brand"><canvas id="logoCv" width="400" height="220"></canvas><h1>Pyookk</h1><p>Masak kue rame-rame, jangan sampai gosong!</p></div>
     <button class="bigbtn solo" id="soloBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span><b>Main Sendiri</b><span>Atur dua koki, ganti-gantian</span></span></button>
     <button class="bigbtn duo" id="duoBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="8" r="3.4"/><circle cx="16.5" cy="8" r="3.4"/><path d="M1.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6zM13 20c.2-2.3-.6-4.2-2-5.4.9-.4 2-.6 3.2-.6 3.6 0 6.5 2.4 6.5 6z"/></svg></span><span><b>Main Berdua</b><span>Di HP masing-masing, pakai kode room</span></span></button>
+    <button class="bigbtn rame" id="rameBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="9" r="2.6"/><circle cx="12" cy="7" r="2.8"/><circle cx="18" cy="9" r="2.6"/><path d="M1 19c0-2.8 2.2-4.6 5-4.6 1 0 1.9.2 2.6.6-.9 1-1.4 2.4-1.4 4zM8.5 19.5c0-3 1.6-5.3 3.5-5.3s3.5 2.3 3.5 5.3zM23 19c0-2.8-2.2-4.6-5-4.6-1 0-1.9.2-2.6.6.9 1 1.4 2.4 1.4 4z"/></svg></span><span><b>Main Rame</b><span>3–4 pemain, HP masing-masing</span></span></button>
     <h3 class="sec-title">Pilih koki</h3>
     <div class="avs" id="avs"></div>
     <h3 class="sec-title">Pilih dapur</h3>
@@ -211,13 +217,14 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
     <div class="panel" id="hostPanel">
       <p>Kode room kamu</p>
       <div class="code" id="codeVal">----</div>
-      <p>Minta pasanganmu membuka game ini, pilih <b>Main Berdua → Gabung</b>, lalu ketik kode ini.</p>
+      <p id="hostInvite">Minta pasanganmu membuka game ini, pilih <b>Main Berdua → Gabung</b>, lalu ketik kode ini.</p>
+      <div class="roster" id="roster"></div>
       <div class="status" id="hostStatus"><i></i><span>Menyambungkan…</span></div>
       <div class="row"><button class="cta" id="startBtn" disabled>Mulai masak!</button></div>
       <p class="note" id="hostLvNote"></p>
     </div>
     <div class="panel" id="joinPanel" hidden>
-      <p>Ketik kode room dari pasanganmu</p>
+      <p>Ketik kode room dari temanmu</p>
       <input class="codein" id="codeIn" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Kode room" placeholder="0000">
       <div class="row"><button class="cta" id="joinBtn">Gabung</button></div>
       <div class="status" id="joinStatus" hidden><i></i><span></span></div>
@@ -318,7 +325,7 @@ const LEVELS=[
 const ROUND=180, COOK=7, BURN=9, W=9, H=9;
 const LABEL={A:'Adonan',T:'Cetak Donat',U:'Cetak Cupcake',O:'Oven',W:'Wajan',C:'Cokelat',S:'Stroberi',M:'Meses',G:'Gula',K:'Keju',N:'Kacang',X:'Buang',L:'Loket'};
 const HEAT=ch=>ch==='O'||ch==='W';
-const CHEF=[{body:'#F0507A',name:'Koki Pink'},{body:'#4FA3F0',name:'Koki Biru'}];
+const CHEF=[{body:'#F0507A',name:'Koki Pink',short:'Pink'},{body:'#4FA3F0',name:'Koki Biru',short:'Biru'},{body:'#3CC48A',name:'Koki Hijau',short:'Hijau'},{body:'#FF9A3C',name:'Koki Oranye',short:'Oranye'}];
 
 /* ================= save ================= */
 const KEY='dapur-panik-v1';
@@ -674,7 +681,7 @@ function drawAvatar(c,avi,cx,cy,u,o){
   drawHat(c,hx,hy,u,o.band||'#F0507A');
   c.restore();
 }
-const cheerSeen=[{n:0,at:0},{n:0,at:0}];
+const cheerSeen=[0,1,2,3].map(()=>({n:0,at:0}));
 function drawChef(c,p,i,s,label,active,now){
   const cx=p.x*s,cy=p.y*s,u=s*.32,col=CHEF[i].body;
   if((p.cheer|0)!==cheerSeen[i].n){if((p.cheer|0)>cheerSeen[i].n)cheerSeen[i].at=now;cheerSeen[i].n=p.cheer|0;}
@@ -690,10 +697,18 @@ function drawChef(c,p,i,s,label,active,now){
 function avatarCanvas(avi,px,band){const cvs=document.createElement('canvas');const d=Math.min(3,devicePixelRatio||1);cvs.width=px*d;cvs.height=px*d;const c=cvs.getContext('2d');c.scale(d,d);drawAvatar(c,avi,px/2,px*.58,px*.26,{fy:1,band:band||'#F0507A',now:500});return cvs;}
 
 /* ================= game state ================= */
-function newGame(lv){
-  const L=LEVELS[lv];
-  return {lv,t:ROUND,score:0,ph:'count',cd:3.4,tiles:{},orders:[],oid:0,nextOrder:1,served:0,expired:0,burnt:0,epoch:Math.floor(Math.random()*1e6),
-    players:L.spawn.map((s,i)=>({x:s[0]+.5,y:s[1]+.5,fx:0,fy:1,it:null,moving:false,cheer:0,av:i===0?(SAVE.av|0):((SAVE.av|0)+1)%4})),hint:[['',0],['',0]],fly:[]};
+function spawnsFor(lv,n){
+  const L=LEVELS[lv],map=L.map,out=L.spawn.slice(0,n);
+  const free=[];for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(map[y][x]==='.')free.push([x,y]);
+  free.sort((a,b)=>Math.hypot(a[0]-4,a[1]-5.5)-Math.hypot(b[0]-4,b[1]-5.5));
+  for(const f of free){if(out.length>=n)break;if(out.every(o=>Math.abs(o[0]-f[0])+Math.abs(o[1]-f[1])>=2))out.push(f);}
+  return out;
+}
+function newGame(lv,n){
+  n=clamp(n||2,2,4);
+  return {lv,n,t:ROUND,score:0,ph:'count',cd:3.4,tiles:{},orders:[],oid:0,nextOrder:1,served:0,expired:0,burnt:0,epoch:Math.floor(Math.random()*1e6),
+    players:spawnsFor(lv,n).map((s,i)=>({x:s[0]+.5,y:s[1]+.5,fx:0,fy:1,it:null,moving:false,cheer:0,av:((SAVE.av|0)+i)%4})),
+    hint:Array.from({length:n},()=>['',0]),fxp:Array.from({length:n},()=>[0,'']),fly:[]};
 }
 let mode='menu', G=null, me=0, selLv=0;
 let V=null;            // guest view
@@ -722,7 +737,7 @@ function target(p){return [Math.floor(p.x)+p.fx,Math.floor(p.y)+p.fy];}
 
 /* events (host/solo) */
 function hint(pi,txt){G.hint[pi]=[txt,G.hint[pi][1]+1];if(pi===me&&mode!=='guest')showHint(txt);}
-function fx(pi,name){if(mode==='solo'||(mode==='host'&&pi===0)){sfx[name]&&sfx[name]();}else{G.fxq=(G.fxq||0)+1;G.fxn=name;}}
+function fx(pi,name){if(mode==='solo'||(mode==='host'&&pi===0)){sfx[name]&&sfx[name]();}else if(G.fxp&&G.fxp[pi]){G.fxp[pi]=[G.fxp[pi][0]+1,name];}}
 function act(pi){
   if(!G||G.ph!=='play')return;
   const map=mapOf(G.lv),P=G.players[pi],[tx,ty]=target(P);
@@ -785,7 +800,8 @@ function sim(dt){
   }
   for(let i=G.orders.length-1;i>=0;i--){const o=G.orders[i];o.left-=dt;if(o.left<=0){G.orders.splice(i,1);G.expired++;G.score=Math.max(0,G.score-8);if(mode!=='guest'){sfx.bad();floatText('Pesanan hangus −8');}}}
   G.nextOrder-=dt;
-  if(G.nextOrder<=0&&G.orders.length<4){G.orders.push({id:++G.oid,r:pick(L.recipes),left:L.life,tot:L.life});G.nextOrder=G.orders.length<2?rand(5,8):rand(13,19);sfx.newOrder();}
+  const crowd=G.n>3?.55:G.n>2?.72:1,maxO=G.n>2?5:4;
+  if(G.nextOrder<=0&&G.orders.length<maxO){G.orders.push({id:++G.oid,r:pick(L.recipes),left:L.life,tot:L.life});G.nextOrder=(G.orders.length<2?rand(5,8):rand(13,19))*crowd;sfx.newOrder();}
   if(G.t<=0){G.t=0;G.ph='end';}
 }
 
@@ -814,7 +830,7 @@ function doAct(){if(mode==='solo'||mode==='host')act(me);else if(mode==='guest'&
 function doChop(){if(mode==='solo'||mode==='host')chop(me);else if(mode==='guest'&&V&&V.ph==='play'){gChop++;sfx.chop();sendGuest(true);}}
 function doSwap(){if(mode!=='solo'||!G)return;G.players[me].moving=false;me=1-me;updateSwap();sfx.pick();}
 press($('#actBtn'),doAct);press($('#chopBtn'),doChop);press($('#swapBtn'),doSwap);
-function updateSwap(){$('#swapBtn').hidden=mode!=='solo';$('#swapDot').style.background=CHEF[1-me].body;}
+function updateSwap(){$('#swapBtn').hidden=mode!=='solo';if(mode==='solo')$('#swapDot').style.background=CHEF[1-me].body;}
 
 /* ================= HUD ================= */
 let toastT;
@@ -877,13 +893,14 @@ function render(st,players,now){
     }
   }
   const order=players.map((p,i)=>i).sort((a,b)=>players[a].y-players[b].y);
-  order.forEach(i=>{const label=mode==='solo'?CHEF[i].name.split(' ')[1]:(i===me?'Kamu':'Pasangan');drawChef(c,players[i],i,s,label,i===me,now);});
+  order.forEach(i=>{const label=mode==='solo'?CHEF[i].short:(i===me?'Kamu':CHEF[i].short);drawChef(c,players[i],i,s,label,i===me,now);});
   if(st.ph!=='play'&&mode!=='menu'){c.fillStyle='rgba(43,26,51,.35)';c.fillRect(0,0,W*s,H*s);}
   if(st.ph==='count'){const n=Math.ceil(st.cd||0),f=(st.cd||0)%1;c.save();c.translate(W*s/2,H*s/2);const sc=1+f*.4;c.scale(sc,sc);c.font=`800 ${s*2.4}px 'Baloo 2', sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=s*.25;c.lineJoin='round';c.strokeStyle='#2B1A33';const txt=n>3?'Siap?':n>0?String(n):'Mulai!';c.strokeText(txt,0,0);c.fillStyle='#FFCF4A';c.fillText(txt,0,0);c.restore();}
 }
 
 /* ================= multiplayer (room presence) ================= */
-let room=null,R=null,roomCode='',hostSeen={peer:null,a:0,c:0},lastSnap=0,guestHere=false,hostGone=0;
+let room=null,R=null,roomCode='',hostSeen={},lastSnap=0,guestHere=false,hostGone=0,maxGuests=1,slotOf={},present={};
+const myGid=Math.random().toString(36).slice(2,10);
 const IN_CLAUDE=typeof window.claude==='object'&&window.claude&&typeof window.claude.use==='function';
 async function getRoom(){
   if(room)return room;
@@ -900,7 +917,7 @@ function peerRoomFactory(){
     let peer;try{peer=asHost?new Peer(hostId,{config:ICE}):new Peer({config:ICE});}catch(e){reject({code:'network'});return;}
     const conns=new Map(),subs=new Set();let mine={},pending=false,leftQ=[],opened=false;
     const snapshot=()=>[{peer:'me',sameTab:true,isMe:true,kind:'viewer',presence:mine},...[...conns.values()].filter(c=>c.pr).map(c=>({peer:c.id,sameTab:false,isMe:false,kind:'viewer',presence:c.pr}))];
-    const notify=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;const ps=snapshot(),l=leftQ;leftQ=[];subs.forEach(f=>{try{f({peers:ps,joined:[],left:l,updated:ps});}catch(e){}});});};
+    const notify=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;const ps=snapshot(),l=leftQ;leftQ=[];subs.forEach(f=>{try{f({peers:ps,joined:[],left:l,updated:ps});}catch(e){console.error(e);}});});};
     function wire(conn){
       conn.on('open',()=>{conns.set(conn.peer,{id:conn.peer,conn,pr:null});try{conn.send({t:'p',pr:mine});}catch(e){}});
       conn.on('data',d=>{const c=conns.get(conn.peer);if(c&&d&&d.t==='p'&&d.pr&&typeof d.pr==='object'){c.pr=d.pr;notify();}});
@@ -929,52 +946,72 @@ function snap(){
   const ti=[];for(const k in G.tiles){const T=G.tiles[k];ti.push([+k,T.it,Math.round(T.p*100)/100]);}
   return {ph:G.ph,cd:Math.round((G.cd||0)*10)/10,lv:G.lv,ep:G.epoch,t:Math.round(G.t*10)/10,sc:G.score,sv:G.served,ex:G.expired,bu:G.burnt,dg:G.dings||0,
     p:G.players.map(p=>[Math.round(p.x*100)/100,Math.round(p.y*100)/100,p.fx,p.fy,p.it||'',p.moving?1:0,p.av|0,p.cheer|0]),
-    ti,or:G.orders.map(o=>[o.id,o.r,Math.round(o.left*10)/10,o.tot]),h:G.hint[1],fq:[G.fxq||0,G.fxn||''],ls:G.lastServe||[0,0]};
+    ti,or:G.orders.map(o=>[o.id,o.r,Math.round(o.left*10)/10,o.tot]),h:G.hint,fq:G.fxp,ls:G.lastServe||[0,0],sl:slotOf,mx:maxGuests};
 }
-function hostLobbySnap(){return {ph:'lobby',lv:selLv,ep:0};}
+function hostLobbySnap(){return {ph:'lobby',lv:selLv,ep:0,sl:slotOf,mx:maxGuests};}
 function sendHost(now){
   if(!R||now-lastSnap<66)return;lastSnap=now;
   R.presence({role:'host',w:G?snap():hostLobbySnap()}).catch(()=>{});
 }
-function readGuest(){
-  if(!R)return null;
-  return R.peers().find(p=>!p.sameTab&&p.presence&&p.presence.role==='guest')||null;
+function readGuests(){
+  if(!R)return [];
+  return R.peers().filter(p=>!p.sameTab&&p.presence&&p.presence.role==='guest'&&typeof p.presence.gid==='string'&&p.presence.gid.length<=16);
 }
+/* give each guest a chef slot (1..maxGuests); in the lobby, free the slots of guests who left */
+function assignSlots(gs,inLobby){
+  const ids=new Set(gs.map(g=>g.presence.gid));
+  if(inLobby)for(const k in slotOf)if(!ids.has(k))delete slotOf[k];
+  const limit=inLobby?maxGuests:Math.min(maxGuests,(G?G.players.length:2)-1);
+  gs.forEach(g=>{const id=g.presence.gid;if(slotOf[id])return;
+    for(let s=1;s<=limit;s++){if(!Object.values(slotOf).includes(s)){slotOf[id]=s;break;}}});
+}
+function compactSlots(){const ids=Object.keys(slotOf).sort((a,b)=>slotOf[a]-slotOf[b]);const n={};ids.forEach((id,i)=>n[id]=i+1);slotOf=n;}
 function applyGuest(){
-  const g=readGuest();
-  if(g&&G&&Number.isInteger(g.presence.av)&&g.presence.av>=0&&g.presence.av<AVS.length)G.players[1].av=g.presence.av;
-  if(!g){if(guestHere&&G&&G.ph==='play')toast('Pasangan terputus…');guestHere=false;if(G)G.players[1].moving=false;return;}
-  if(!guestHere&&G&&G.ph==='play')toast('Pasangan tersambung');
-  guestHere=true;
-  const pr=g.presence,P=G.players[1];
-  if(pr.ep!==G.epoch)return; // guest has not synced to this round yet
-  if(typeof pr.x==='number'&&typeof pr.y==='number'){P.x=clamp(pr.x,0,W);P.y=clamp(pr.y,0,H);}
-  if([-1,0,1].includes(pr.fx)&&[-1,0,1].includes(pr.fy)&&(pr.fx||pr.fy)){P.fx=pr.fx;P.fy=pr.fy;}
-  P.moving=!!pr.mv;if(Number.isInteger(pr.av)&&pr.av>=0&&pr.av<AVS.length)P.av=pr.av;
-  const a=pr.a|0,cc=pr.c|0;
-  if(hostSeen.peer!==g.peer||hostSeen.ep!==G.epoch){hostSeen={peer:g.peer,ep:G.epoch,a,c:cc};return;}
-  const na=Math.min(5,Math.max(0,a-hostSeen.a)),nc=Math.min(8,Math.max(0,cc-hostSeen.c));
-  hostSeen.a=Math.max(hostSeen.a,a);hostSeen.c=Math.max(hostSeen.c,cc);
-  for(let i=0;i<na;i++)act(1);
-  for(let i=0;i<nc;i++)chop(1);
+  const gs=readGuests();assignSlots(gs,false);
+  const now={};
+  gs.forEach(g=>{const s=slotOf[g.presence.gid];if(!s||!G||s>=G.players.length)return;now[s]=1;
+    const pr=g.presence,P=G.players[s];
+    if(Number.isInteger(pr.av)&&pr.av>=0&&pr.av<AVS.length)P.av=pr.av;
+    if(pr.ep!==G.epoch)return;
+    if(typeof pr.x==='number'&&typeof pr.y==='number'){P.x=clamp(pr.x,0,W);P.y=clamp(pr.y,0,H);}
+    if([-1,0,1].includes(pr.fx)&&[-1,0,1].includes(pr.fy)&&(pr.fx||pr.fy)){P.fx=pr.fx;P.fy=pr.fy;}
+    P.moving=!!pr.mv;
+    const a=pr.a|0,cc=pr.c|0,hs=hostSeen[s];
+    if(!hs||hs.gid!==pr.gid||hs.ep!==G.epoch){hostSeen[s]={gid:pr.gid,ep:G.epoch,a,c:cc};return;}
+    const na=Math.min(5,Math.max(0,a-hs.a)),nc=Math.min(8,Math.max(0,cc-hs.c));
+    hs.a=Math.max(hs.a,a);hs.c=Math.max(hs.c,cc);
+    for(let i=0;i<na;i++)act(s);
+    for(let i=0;i<nc;i++)chop(s);
+  });
+  if(G&&G.ph==='play')for(let s=1;s<G.players.length;s++){
+    if(present[s]&&!now[s]){toast(CHEF[s].name+' terputus…');G.players[s].moving=false;}
+    if(!present[s]&&now[s]&&G.t<ROUND-1)toast(CHEF[s].name+' tersambung');
+  }
+  present=now;guestHere=Object.keys(now).length>0;
 }
 let lastGuestSend=0;
 function sendGuest(force){
   if(!R||!localP||!V)return;const n=performance.now();if(!force&&n-lastGuestSend<50)return;lastGuestSend=n;
-  R.presence({role:'guest',ep:V.ep,x:Math.round(localP.x*100)/100,y:Math.round(localP.y*100)/100,fx:localP.fx,fy:localP.fy,mv:localP.moving?1:0,a:gAct,c:gChop,av:SAVE.av|0}).catch(()=>{});
+  R.presence({role:'guest',gid:myGid,ep:V.ep,x:Math.round(localP.x*100)/100,y:Math.round(localP.y*100)/100,fx:localP.fx,fy:localP.fy,mv:localP.moving?1:0,a:gAct,c:gChop,av:SAVE.av|0}).catch(()=>{});
 }
 let prevV=null;
 function applySnap(w){
   if(!w||typeof w!=='object')return;
   const lv=clamp(w.lv|0,0,LEVELS.length-1);
-  if(w.ph==='lobby'){V=null;setJoinStatus('ok','Terhubung! Menunggu pasanganmu memulai…');if(mode==='guest'&&!$('#result').hidden)$('#result').hidden=true;if(mode==='guest'&&$('#lobby').hidden){showLobby(true);}return;}
+  const sl=(w.sl&&typeof w.sl==='object')?w.sl:{};const mySlot=sl[myGid]|0;
+  if(w.ph==='lobby'){V=null;
+    if(mySlot>0)setJoinStatus('ok','Terhubung! Kamu '+CHEF[clamp(mySlot,1,3)].name+'. Menunggu tuan rumah memulai…');
+    else if(Object.keys(sl).length>=(w.mx|0||1))setJoinStatus('bad','Room ini sudah penuh.');
+    else setJoinStatus('','Menunggu tempat di room…');if(mode==='guest'&&!$('#result').hidden)$('#result').hidden=true;if(mode==='guest'&&$('#lobby').hidden){showLobby(true);}return;}
   const tiles={};(w.ti||[]).forEach(t=>{if(Array.isArray(t)&&typeof t[1]==='string')tiles[t[0]|0]={it:t[1].slice(0,4),p:+t[2]||0};});
-  const players=(w.p||[]).slice(0,2).map(a=>({x:+a[0]||1,y:+a[1]||1,fx:a[2]|0,fy:a[3]|0,it:typeof a[4]==='string'&&a[4]?a[4].slice(0,4):null,moving:!!a[5],av:clamp(a[6]|0,0,AVS.length-1),cheer:a[7]|0}));
+  const players=(w.p||[]).slice(0,4).map(a=>({x:+a[0]||1,y:+a[1]||1,fx:a[2]|0,fy:a[3]|0,it:typeof a[4]==='string'&&a[4]?a[4].slice(0,4):null,moving:!!a[5],av:clamp(a[6]|0,0,AVS.length-1),cheer:a[7]|0}));
   if(players.length<2)return;
+  if(mySlot<1||mySlot>=players.length){if(!V){setJoinStatus('bad','Permainan sudah dimulai dan room penuh. Tunggu ronde berikutnya.');}return;}
+  me=mySlot;
   const orders=(w.or||[]).slice(0,6).filter(o=>RECIPES[o[1]]).map(o=>({id:o[0]|0,r:o[1],left:+o[2]||0,tot:+o[3]||1}));
   const nv={ph:w.ph==='end'?'end':w.ph==='count'?'count':'play',cd:+w.cd||0,lv,ep:w.ep,t:+w.t||0,score:w.sc|0,tiles,players,orders,served:w.sv|0,expired:w.ex|0,burnt:w.bu|0,dg:w.dg|0,h:w.h,fq:w.fq,ls:w.ls};
   if(!V||V.ep!==nv.ep){ // new round
-    localP=Object.assign({},players[1]);gAct=0;gChop=0;prevV=null;startPlayView();
+    localP=Object.assign({},players[me]);gAct=0;gChop=0;prevV=null;smooth=[];startPlayView();
   }
   if(prevV){
     if(nv.served>prevV.served){sfx.serve();if(nv.ls&&nv.ls[1]===nv.served)floatText('+'+(nv.ls[0]|0));}
@@ -982,9 +1019,11 @@ function applySnap(w){
     if(nv.burnt>prevV.burnt){sfx.burnt();showHint('Ada kue gosong di oven!');}
     if(nv.dg>prevV.dg)sfx.ding();
     if(nv.orders.length>prevV.orders.length&&nv.orders.some(o=>!prevV.orders.find(p=>p.id===o.id)))sfx.newOrder();
-    if(Array.isArray(nv.h)&&prevV.h&&nv.h[1]!==prevV.h[1]&&typeof nv.h[0]==='string')showHint(nv.h[0].slice(0,60));
-    if(Array.isArray(nv.fq)&&prevV.fq&&nv.fq[0]!==prevV.fq[0]&&sfx[nv.fq[1]]&&nv.fq[1]!=='chop')sfx[nv.fq[1]]();
-    if(prevV.players[1].it!==nv.players[1].it&&!(Array.isArray(nv.fq)&&prevV.fq&&nv.fq[0]!==prevV.fq[0]))sfx.pick();
+    const h=Array.isArray(nv.h)?nv.h[me]:null,ph=Array.isArray(prevV.h)?prevV.h[me]:null;
+    if(Array.isArray(h)&&Array.isArray(ph)&&h[1]!==ph[1]&&typeof h[0]==='string')showHint(h[0].slice(0,60));
+    const q=Array.isArray(nv.fq)?nv.fq[me]:null,pq=Array.isArray(prevV.fq)?prevV.fq[me]:null;const fired=Array.isArray(q)&&Array.isArray(pq)&&q[0]!==pq[0];
+    if(fired&&sfx[q[1]]&&q[1]!=='chop')sfx[q[1]]();
+    if(prevV.players[me]&&prevV.players[me].it!==nv.players[me].it&&!fired)sfx.pick();
   }
   if(nv.ph==='count'){const n=Math.ceil(nv.cd);if(!V||V._n!==n){nv._n=n;if(n>0)sfx.count(n);}else nv._n=n;}
   if(nv.ph==='play'&&V&&V.ph==='count'){sfx.count(0);sfx.whistle();musicStart();}
@@ -1000,8 +1039,8 @@ function watchHost(){
       if(h){hostGone=0;applySnap(h.presence.w);}
       else if(ch.left.length){hostGone++;if(V||!$('#lobby').hidden){setJoinStatus('bad','Pasanganmu keluar dari room.');if(V){toast('Pasanganmu keluar dari room');}}}
     }else if(mode==='host'||mode==='hostlobby'){
-      const g=ch.peers.find(p=>!p.sameTab&&p.presence&&p.presence.role==='guest');
-      updateHostLobby(!!g);
+      if(mode==='hostlobby')assignSlots(readGuests(),true);
+      updateHostLobby(Object.keys(slotOf).length>0);
     }
   },e=>{const m=whyCode(e,'Koneksi room terputus.');toast(m);if(mode==='guest')setJoinStatus('bad',m);else setHostStatus('bad',m);showHelp(true);});
 }
@@ -1067,13 +1106,14 @@ function startPlayView(){
   updateSwap();requestAnimationFrame(resize);
 }
 function startSolo(lv){mode='solo';me=0;G=newGame(lv);startPlayView();toast('Pakai tombol "Ganti koki" untuk pindah koki');}
-function startHostGame(){mode='host';me=0;G=newGame(selLv);hostSeen={peer:null,a:0,c:0};startPlayView();}
+function startHostGame(){compactSlots();mode='host';me=0;G=newGame(selLv,Math.max(2,1+Object.keys(slotOf).length));hostSeen={};present={};startPlayView();}
 
 $('#sndBtn').onclick=()=>setSound(!SAVE.sound);
 $('#togSnd').onclick=()=>setSound(!SAVE.sound);
 $('#togMus').onclick=()=>setMusic(!SAVE.music);
 $('#soloBtn').onclick=()=>{sfx.pick();startSolo(selLv);};
-$('#duoBtn').onclick=async()=>{sfx.pick();showLobby(false);};
+$('#duoBtn').onclick=async()=>{sfx.pick();maxGuests=1;showLobby(false);};
+$('#rameBtn').onclick=async()=>{sfx.pick();maxGuests=3;showLobby(false);};
 $('#quitBtn').onclick=()=>{
   if(mode==='menu')return;
   if(mode==='guest'||mode==='host'){showMenu();return;}
@@ -1093,7 +1133,7 @@ function whyCode(e,fallback){const c=e&&e.code;
   if(c==='upstream_error')return 'Sinyal sedang lemah. Coba lagi.';
   return fallback+' Coba lagi.';}
 function showHelp(on){$('#help').classList.toggle('alert',!!on);}
-if(!IN_CLAUDE){document.addEventListener('DOMContentLoaded',()=>{});const h=$('#help');if(h)h.innerHTML='<b>Main berdua di HP masing-masing</b><ol><li>Kalian berdua buka link game ini di HP masing-masing. Tidak perlu akun apa pun.</li><li>Satu orang pilih <b>Buat room</b>, yang lain pilih <b>Gabung</b> lalu ketik kodenya.</li><li>Paling lancar kalau kedua HP terhubung ke internet yang stabil, misalnya WiFi yang sama.</li></ol>';}
+if(!IN_CLAUDE){document.addEventListener('DOMContentLoaded',()=>{});const h=$('#help');if(h)h.innerHTML='<b>Main bareng di HP masing-masing</b><ol><li>Semua pemain buka link game ini di HP masing-masing. Tidak perlu akun apa pun.</li><li>Satu orang pilih <b>Buat room</b>, yang lain pilih <b>Gabung</b> lalu ketik kodenya. Main Rame bisa sampai 4 koki.</li><li>Paling lancar kalau semua HP terhubung ke internet yang stabil, misalnya WiFi yang sama.</li></ol>';}
 async function showLobby(guestWaiting){
   $('#menu').hidden=true;$('#lobby').hidden=false;$('#result').hidden=true;
   if(guestWaiting){setTab(false);return;}
@@ -1102,7 +1142,8 @@ async function showLobby(guestWaiting){
   await openHostRoom();
 }
 async function openHostRoom(){
-  mode='hostlobby';G=null;guestHere=false;
+  mode='hostlobby';G=null;guestHere=false;slotOf={};present={};
+  $('#hostInvite').innerHTML=maxGuests>1?'Minta 2–3 temanmu membuka game ini, pilih <b>Gabung</b>, lalu ketik kode ini.':'Minta pasanganmu membuka game ini, pilih <b>Main Berdua → Gabung</b>, lalu ketik kode ini.';
   roomCode=String(Math.floor(1000+Math.random()*9000));$('#codeVal').textContent=roomCode;
   setHostStatus('','Menyambungkan…');$('#startBtn').disabled=true;
   const rm=await getRoom();
@@ -1114,8 +1155,11 @@ async function openHostRoom(){
 function updateHostLobby(has){
   guestHere=has;
   if(mode!=='hostlobby')return;
-  setHostStatus(has?'ok':'',has?'Pasangan sudah masuk!':'Menunggu pasangan…');
+  const cnt=Object.keys(slotOf).length;
+  setHostStatus(has?'ok':'',maxGuests>1?(cnt?cnt+' teman sudah masuk ('+(cnt+1)+' koki)':'Menunggu teman…'):(has?'Pasangan sudah masuk!':'Menunggu pasangan…'));
   $('#startBtn').disabled=!has;
+  const taken=new Set(Object.values(slotOf));
+  $('#roster').innerHTML=Array.from({length:maxGuests+1},(_,i)=>`<span class="${i===0||taken.has(i)?'':'off'}"><i style="background:${CHEF[i].body}"></i>${i===0?'Kamu':taken.has(i)?CHEF[i].short:'kosong'}</span>`).join('');
   $('#hostLvNote').textContent='Dapur: '+LEVELS[selLv].name+' (ganti di menu)';
 }
 $('#tabHost').onclick=()=>{if(mode==='guest')leaveRoom();setTab(true);if(mode!=='hostlobby')openHostRoom();};
@@ -1125,13 +1169,13 @@ $('#codeIn').addEventListener('input',e=>{e.target.value=e.target.value.replace(
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinBtn').click();});
 $('#joinBtn').onclick=async()=>{
   const code=$('#codeIn').value;if(code.length!==4){setJoinStatus('bad','Kodenya 4 angka');return;}
-  leaveRoom();mode='guest';me=1;V=null;
+  leaveRoom();mode='guest';me=1;V=null;slotOf={};
   setJoinStatus('','Menyambungkan…');
   const rm=await getRoom();
   if(!rm){setJoinStatus('bad',WHY.noroom);showHelp(true);mode='joinlobby';return;}
   try{R=await rm.join('dapur-'+code);}catch(e){R=null;setJoinStatus('bad',whyCode(e,'Gagal masuk room.'));showHelp(true);mode='joinlobby';return;}
   roomCode=code;
-  R.presence({role:'guest',ep:0,av:SAVE.av|0}).catch(()=>{});
+  R.presence({role:'guest',gid:myGid,ep:0,av:SAVE.av|0}).catch(()=>{});
   setJoinStatus('','Mencari room '+code+'…');
   watchHost();
   setTimeout(()=>{if(mode==='guest'&&!V&&!(R&&R.peers().some(p=>!p.sameTab&&p.presence&&p.presence.role==='host')))setJoinStatus('bad','Room '+code+' belum ada. Cek kodenya, atau minta pasanganmu buat room dulu.');},6000);
@@ -1160,7 +1204,7 @@ function showResult(st){
 /* ================= main loop ================= */
 let stepT=0;
 function stepSound(p,dt){if(!p.moving){stepT=0;return;}stepT-=dt;if(stepT<=0){stepT=.27;sfx.step();}}
-let last=performance.now(),smoothHost=null;
+let last=performance.now(),smooth=[];
 function frame(now){
   const dt=Math.min(.05,(now-last)/1000);last=now;
   const [kx,ky]=keyVec();const ix=clamp(input.x+kx,-1,1),iy=clamp(input.y+ky,-1,1);
@@ -1193,10 +1237,11 @@ function frame(now){
       ambient(V,dt);
     }
     sendGuest(false);
-    const hp=V.players[0];
-    if(!smoothHost||Math.hypot(smoothHost.x-hp.x,smoothHost.y-hp.y)>2)smoothHost={x:hp.x,y:hp.y};
-    const k=1-Math.pow(.001,dt);smoothHost.x+=(hp.x-smoothHost.x)*k;smoothHost.y+=(hp.y-smoothHost.y)*k;
-    const pl=[Object.assign({},hp,{x:smoothHost.x,y:smoothHost.y}),Object.assign({},localP,{it:V.players[1].it,av:SAVE.av|0,cheer:V.players[1].cheer})];
+    const k=1-Math.pow(.001,dt);
+    const pl=V.players.map((hp,i)=>{
+      if(i===me)return Object.assign({},localP,{it:hp.it,av:SAVE.av|0,cheer:hp.cheer});
+      let sm=smooth[i];if(!sm||Math.hypot(sm.x-hp.x,sm.y-hp.y)>2)sm=smooth[i]={x:hp.x,y:hp.y};
+      sm.x+=(hp.x-sm.x)*k;sm.y+=(hp.y-sm.y)*k;return Object.assign({},hp,{x:sm.x,y:sm.y});});
     renderOrders(V.orders);renderHud(V);render(V,pl,now);
   }
   requestAnimationFrame(frame);
