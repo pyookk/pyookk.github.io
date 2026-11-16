@@ -100,6 +100,8 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
 .help b{color:var(--cream)}
 .help>b{font-family:var(--font-display);font-size:17px}
 .help ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.weblink{display:flex;align-items:center;justify-content:center;height:50px;border-radius:16px;background:var(--rasp);color:#fff;font-family:var(--font-display);font-weight:800;font-size:18px;text-decoration:none;box-shadow:0 4px 0 var(--rasp-deep)}
+.urltext{display:block;text-align:center;font-size:12px;color:var(--butter);user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
 .help.alert{box-shadow:inset 0 0 0 3px var(--butter)}
 .book{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .rc{background:var(--plum-2);border-radius:14px;padding:6px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:11px;font-weight:900;line-height:1.15;min-width:0}
@@ -250,7 +252,11 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
       <div class="status" id="joinStatus" hidden><i></i><span></span></div>
     </div>
     <div class="help" id="help">
-      <b>Supaya bisa main berdua</b>
+      <b>Main bareng tanpa akun</b>
+      <span>Semua pemain buka versi website ini di HP masing-masing, lalu Buat room / Gabung:</span>
+      <a class="weblink" href="https://ranggaramadhan86jambi.github.io/pyookk/" target="_blank" rel="noopener">Buka Pyookk versi website</a>
+      <code class="urltext">https://ranggaramadhan86jambi.github.io/pyookk/</code>
+      <b style="margin-top:6px">Atau tetap di versi Claude</b>
       <ol>
         <li>Kalian berdua <b>masuk ke akun Claude</b> di HP masing-masing (buka claude.ai di browser atau aplikasi Claude).</li>
         <li>Pemilik game membuka menu <b>Share</b> di game ini, lalu <b>mengundang email akun Claude</b> pasangannya.</li>
@@ -1144,7 +1150,7 @@ $('#quitBtn').onclick=()=>{
 function setTab(host){$('#tabHost').setAttribute('aria-selected',host);$('#tabJoin').setAttribute('aria-selected',!host);$('#hostPanel').hidden=!host;$('#joinPanel').hidden=host;}
 function setHostStatus(cls,txt){const s=$('#hostStatus');s.className='status '+cls;s.querySelector('span').textContent=txt;}
 function setJoinStatus(cls,txt){const s=$('#joinStatus');s.hidden=false;s.className='status '+cls;s.querySelector('span').textContent=txt;}
-const WHY={noroom:'HP ini belum bisa main berdua: game dibuka tanpa akun Claude atau lewat link publik. Ikuti langkah di bawah.'};
+const WHY={noroom:IN_CLAUDE?'Di versi ini, main bareng butuh akun Claude. Pakai versi website di bawah, bisa tanpa akun.':'Gagal memuat koneksi main bareng. Cek internet lalu muat ulang halaman.'};
 function whyCode(e,fallback){const c=e&&e.code;
   if(c==='not_permitted'||c==='not_granted'||c==='revoked')return 'Akun ini belum diizinkan masuk room. Pastikan game diundang langsung ke akun Claude ini.';
   if(c==='limit_reached')return 'Room sedang penuh. Coba lagi sebentar.';
