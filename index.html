@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2B1A33"><style>*,*::before,*::after{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);height:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="theme-color" content="#2B1A33"><meta name="apple-mobile-web-app-capable" content="yes"><title>Pyookk</title><style>*,*::before,*::after{box-sizing:border-box}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);height:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
 <title>Pyookk</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,6 +26,9 @@
   color-scheme:dark;
 }
 html,body{height:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+#app,#app *{touch-action:manipulation}
+#cv,.joy{touch-action:none!important}
 [hidden]{display:none!important}
 body{background:var(--plum);color:var(--cream);font-family:var(--font-body);overflow:hidden;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;touch-action:none}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;touch-action:manipulation}
@@ -102,6 +105,35 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
 .help ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 .weblink{display:flex;align-items:center;justify-content:center;height:50px;border-radius:16px;background:var(--rasp);color:#fff;font-family:var(--font-display);font-weight:800;font-size:18px;text-decoration:none;box-shadow:0 4px 0 var(--rasp-deep)}
 .urltext{display:block;text-align:center;font-size:12px;color:var(--butter);user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
+.hello{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:6px}
+.hello button{display:flex;align-items:center;gap:6px;background:var(--plum-2);border-radius:999px;padding:6px 14px;font-weight:900;font-size:14px}
+.hello svg{width:16px;height:16px}
+.namebox{display:flex;flex-direction:column;gap:14px;align-items:center;text-align:center;margin:auto 0;padding-block:12px}
+.namebox h2{margin:0;font-family:var(--font-display);font-size:30px;line-height:1.1;color:var(--butter)}
+.namebox p{margin:0;color:var(--muted);font-weight:800}
+.namein{width:100%;max-width:320px;height:60px;border-radius:16px;border:3px solid var(--plum-3);background:var(--plum-2);color:var(--cream);font:800 24px var(--font-display);text-align:center}
+.namein:focus{outline:none;border-color:var(--butter)}
+.namebox .avs{width:100%;max-width:420px}
+.namebox .cta{width:100%;max-width:320px;flex:none}
+.lobbycode{display:flex;flex-direction:column;align-items:center;gap:2px}
+.lobbycode small{font-weight:900;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%}
+.cards.four{grid-template-columns:repeat(2,1fr)}
+.pc{position:relative;display:flex;align-items:center;gap:8px;background:var(--plum);border-radius:16px;padding:6px 10px 6px 6px;min-width:0;border:2px solid transparent;animation:pop .3s}
+.pc canvas{width:48px;height:48px;flex:none}
+.pc b{display:block;font-family:var(--font-display);font-size:16px;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc span{font-size:11px;font-weight:900;color:var(--muted)}
+.pc div{min-width:0;text-align:left}
+.pc.empty{border:2px dashed var(--plum-3);background:transparent;justify-content:center;color:var(--muted);font-weight:900;font-size:12px;min-height:64px;animation:none}
+.pc.empty i{width:8px;height:8px;border-radius:50%;background:var(--muted);animation:pulse .8s infinite alternate}
+.lvchips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.lvchips button{height:34px;padding:0 12px;border-radius:999px;background:var(--plum);font-weight:900;font-size:13px;color:var(--muted)}
+.lvchips button[aria-pressed="true"]{background:var(--butter);color:var(--ink)}
+.lvchips button:disabled{opacity:.35}
+.sharebtn{display:flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:14px;background:var(--plum-3);font-weight:900;font-size:15px}
+.sharebtn svg{width:18px;height:18px}
+.lvnow{font-weight:900;font-size:13px;color:var(--muted)}
+.lvnow b{color:var(--butter)}
 .help.alert{box-shadow:inset 0 0 0 3px var(--butter)}
 .book{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
 .rc{background:var(--plum-2);border-radius:14px;padding:6px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:11px;font-weight:900;line-height:1.15;min-width:0}
@@ -213,8 +245,18 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
   </div>
 
   <!-- menu -->
+  <section class="screen" id="nameScreen" hidden>
+    <div class="namebox">
+      <h2>Halo, koki baru!</h2>
+      <p>Siapa namamu? Nama ini muncul di atas kokimu.</p>
+      <input class="namein" id="nameIn" maxlength="12" autocomplete="off" autocapitalize="words" enterkeyhint="done" placeholder="Nama kamu" aria-label="Nama kamu">
+      <p>Pilih kokimu</p>
+      <div class="avs" id="avs2"></div>
+      <button class="cta" id="nameOk">Lanjut</button>
+    </div>
+  </section>
   <section class="screen" id="menu">
-    <div class="brand"><canvas id="logoCv" width="400" height="220"></canvas><h1>Pyookk</h1><p>Masak kue rame-rame, jangan sampai gosong!</p></div>
+    <div class="brand"><canvas id="logoCv" width="400" height="220"></canvas><h1>Pyookk</h1><p>Masak kue rame-rame, jangan sampai gosong!</p><div class="hello"><button id="helloBtn"><span id="helloName">Halo!</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></button></div></div>
     <button class="bigbtn solo" id="soloBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg></span><span><b>Main Sendiri</b><span>Atur dua koki, ganti-gantian</span></span></button>
     <button class="bigbtn duo" id="duoBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="8" cy="8" r="3.4"/><circle cx="16.5" cy="8" r="3.4"/><path d="M1.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6zM13 20c.2-2.3-.6-4.2-2-5.4.9-.4 2-.6 3.2-.6 3.6 0 6.5 2.4 6.5 6z"/></svg></span><span><b>Main Berdua</b><span>Di HP masing-masing, pakai kode room</span></span></button>
     <button class="bigbtn rame" id="rameBtn"><span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="9" r="2.6"/><circle cx="12" cy="7" r="2.8"/><circle cx="18" cy="9" r="2.6"/><path d="M1 19c0-2.8 2.2-4.6 5-4.6 1 0 1.9.2 2.6.6-.9 1-1.4 2.4-1.4 4zM8.5 19.5c0-3 1.6-5.3 3.5-5.3s3.5 2.3 3.5 5.3zM23 19c0-2.8-2.2-4.6-5-4.6-1 0-1.9.2-2.6.6.9 1 1.4 2.4 1.4 4z"/></svg></span><span><b>Main Rame</b><span>3–4 pemain, HP masing-masing</span></span></button>
@@ -237,19 +279,22 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
     <button class="back" id="lobbyBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Kembali</button>
     <div class="tabs2" role="tablist"><button role="tab" id="tabHost" aria-selected="true">Buat room</button><button role="tab" id="tabJoin" aria-selected="false">Gabung</button></div>
     <div class="panel" id="hostPanel">
-      <p>Kode room kamu</p>
-      <div class="code" id="codeVal">----</div>
+      <div class="lobbycode"><small>Kode room</small><div class="code" id="codeVal">----</div></div>
+      <button class="sharebtn" id="shareBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Ajak teman</button>
       <p id="hostInvite">Minta pasanganmu membuka game ini, pilih <b>Main Berdua → Gabung</b>, lalu ketik kode ini.</p>
-      <div class="roster" id="roster"></div>
+      <div class="cards" id="roster"></div>
       <div class="status" id="hostStatus"><i></i><span>Menyambungkan…</span></div>
+      <p class="lvnow">Pilih dapur</p>
+      <div class="lvchips" id="lvChips"></div>
       <div class="row"><button class="cta" id="startBtn" disabled>Mulai masak!</button></div>
-      <p class="note" id="hostLvNote"></p>
     </div>
     <div class="panel" id="joinPanel" hidden>
       <p>Ketik kode room dari temanmu</p>
       <input class="codein" id="codeIn" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="Kode room" placeholder="0000">
       <div class="row"><button class="cta" id="joinBtn">Gabung</button></div>
       <div class="status" id="joinStatus" hidden><i></i><span></span></div>
+      <div class="cards" id="guestRoster" hidden></div>
+      <p class="lvnow" id="guestLv" hidden></p>
     </div>
     <div class="help" id="help">
       <b>Main bareng tanpa akun</b>
@@ -355,7 +400,8 @@ const CHEF=[{body:'#F0507A',name:'Koki Pink',short:'Pink'},{body:'#4FA3F0',name:
 
 /* ================= save ================= */
 const KEY='dapur-panik-v1';
-let SAVE={stars:[0,0,0],sound:true,music:true,av:0};
+let SAVE={stars:[0,0,0],sound:true,music:true,av:0,name:''};
+const cleanName=v=>String(v==null?'':v).replace(/[\u0000-\u001f\u007f-\u009f<>\u200b-\u200f\u202a-\u202e\u2066-\u2069]/g,'').replace(/\s+/g,' ').trim().slice(0,12);
 try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o&&Array.isArray(o.stars))SAVE=Object.assign(SAVE,o);}catch(e){}
 while(SAVE.stars.length<LEVELS.length)SAVE.stars.push(0);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(SAVE));}catch(e){}}
@@ -733,7 +779,7 @@ function spawnsFor(lv,n){
 function newGame(lv,n){
   n=clamp(n||2,2,4);
   return {lv,n,t:ROUND,score:0,ph:'count',cd:3.4,tiles:{},orders:[],oid:0,nextOrder:1,served:0,expired:0,burnt:0,epoch:Math.floor(Math.random()*1e6),
-    players:spawnsFor(lv,n).map((s,i)=>({x:s[0]+.5,y:s[1]+.5,fx:0,fy:1,it:null,moving:false,cheer:0,av:((SAVE.av|0)+i)%4})),
+    players:spawnsFor(lv,n).map((s,i)=>({x:s[0]+.5,y:s[1]+.5,fx:0,fy:1,it:null,moving:false,cheer:0,av:((SAVE.av|0)+i)%4,nm:i===0?cleanName(SAVE.name):''})),
     hint:Array.from({length:n},()=>['',0]),fxp:Array.from({length:n},()=>[0,'']),fly:[]};
 }
 let mode='menu', G=null, me=0, selLv=0;
@@ -919,7 +965,7 @@ function render(st,players,now){
     }
   }
   const order=players.map((p,i)=>i).sort((a,b)=>players[a].y-players[b].y);
-  order.forEach(i=>{const label=mode==='solo'?CHEF[i].short:(i===me?'Kamu':CHEF[i].short);drawChef(c,players[i],i,s,label,i===me,now);});
+  order.forEach(i=>{const nm=players[i].nm;const label=mode==='solo'?(i===0&&nm?nm:CHEF[i].short):(nm||(i===me?'Kamu':CHEF[i].short));drawChef(c,players[i],i,s,label,i===me,now);});
   if(st.ph!=='play'&&mode!=='menu'){c.fillStyle='rgba(43,26,51,.35)';c.fillRect(0,0,W*s,H*s);}
   if(st.ph==='count'){const n=Math.ceil(st.cd||0),f=(st.cd||0)%1;c.save();c.translate(W*s/2,H*s/2);const sc=1+f*.4;c.scale(sc,sc);c.font=`800 ${s*2.4}px 'Baloo 2', sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=s*.25;c.lineJoin='round';c.strokeStyle='#2B1A33';const txt=n>3?'Siap?':n>0?String(n):'Mulai!';c.strokeText(txt,0,0);c.fillStyle='#FFCF4A';c.fillText(txt,0,0);c.restore();}
 }
@@ -971,10 +1017,27 @@ function peerRoomFactory(){
 function snap(){
   const ti=[];for(const k in G.tiles){const T=G.tiles[k];ti.push([+k,T.it,Math.round(T.p*100)/100]);}
   return {ph:G.ph,cd:Math.round((G.cd||0)*10)/10,lv:G.lv,ep:G.epoch,t:Math.round(G.t*10)/10,sc:G.score,sv:G.served,ex:G.expired,bu:G.burnt,dg:G.dings||0,
-    p:G.players.map(p=>[Math.round(p.x*100)/100,Math.round(p.y*100)/100,p.fx,p.fy,p.it||'',p.moving?1:0,p.av|0,p.cheer|0]),
+    p:G.players.map(p=>[Math.round(p.x*100)/100,Math.round(p.y*100)/100,p.fx,p.fy,p.it||'',p.moving?1:0,p.av|0,p.cheer|0,p.nm||'']),
     ti,or:G.orders.map(o=>[o.id,o.r,Math.round(o.left*10)/10,o.tot]),h:G.hint,fq:G.fxp,ls:G.lastServe||[0,0],sl:slotOf,mx:maxGuests};
 }
-function hostLobbySnap(){return {ph:'lobby',lv:selLv,ep:0,sl:slotOf,mx:maxGuests};}
+function lobbyRoster(){
+  const ro=[[0,cleanName(SAVE.name)||CHEF[0].short,SAVE.av|0]];
+  readGuests().forEach(g=>{const sl=slotOf[g.presence.gid];if(sl)ro.push([sl,cleanName(g.presence.nm)||CHEF[sl].short,clamp(g.presence.av|0,0,AVS.length-1)]);});
+  return ro.sort((a,b)=>a[0]-b[0]);
+}
+function hostLobbySnap(){return {ph:'lobby',lv:selLv,ep:0,sl:slotOf,mx:maxGuests,ro:lobbyRoster()};}
+const avCache={};
+function avImg(av,slot){const k=av+'-'+slot;if(!avCache[k])avCache[k]=avatarCanvas(av,48,CHEF[slot].body).toDataURL();return avCache[k];}
+function renderCards(box,ro,max,mySlot){
+  const key=JSON.stringify([ro,max,mySlot]);if(box._key===key)return;box._key=key;
+  box.innerHTML='';
+  for(let i=0;i<=max;i++){const r=ro.find(x=>x[0]===i);const el=document.createElement('div');
+    if(!r){el.className='pc empty';el.innerHTML='<i></i>';el.appendChild(document.createTextNode(' Menunggu…'));box.appendChild(el);continue;}
+    el.className='pc';el.style.borderColor=CHEF[i].body;
+    const img=document.createElement('img');img.src=avImg(clamp(r[2]|0,0,AVS.length-1),i);img.width=48;img.height=48;img.alt='';el.appendChild(img);
+    const d=document.createElement('div');const b=document.createElement('b');b.textContent=cleanName(r[1])||CHEF[i].short;const sp=document.createElement('span');
+    sp.textContent=(i===0?'Tuan rumah':CHEF[i].name)+(i===mySlot?' · kamu':'');d.appendChild(b);d.appendChild(sp);el.appendChild(d);box.appendChild(el);}
+}
 function sendHost(now){
   if(!R||now-lastSnap<66)return;lastSnap=now;
   R.presence({role:'host',w:G?snap():hostLobbySnap()}).catch(()=>{});
@@ -998,6 +1061,7 @@ function applyGuest(){
   gs.forEach(g=>{const s=slotOf[g.presence.gid];if(!s||!G||s>=G.players.length)return;now[s]=1;
     const pr=g.presence,P=G.players[s];
     if(Number.isInteger(pr.av)&&pr.av>=0&&pr.av<AVS.length)P.av=pr.av;
+    P.nm=cleanName(pr.nm);
     if(pr.ep!==G.epoch)return;
     if(typeof pr.x==='number'&&typeof pr.y==='number'){P.x=clamp(pr.x,0,W);P.y=clamp(pr.y,0,H);}
     if([-1,0,1].includes(pr.fx)&&[-1,0,1].includes(pr.fy)&&(pr.fx||pr.fy)){P.fx=pr.fx;P.fy=pr.fy;}
@@ -1018,7 +1082,7 @@ function applyGuest(){
 let lastGuestSend=0;
 function sendGuest(force){
   if(!R||!localP||!V)return;const n=performance.now();if(!force&&n-lastGuestSend<50)return;lastGuestSend=n;
-  R.presence({role:'guest',gid:myGid,ep:V.ep,x:Math.round(localP.x*100)/100,y:Math.round(localP.y*100)/100,fx:localP.fx,fy:localP.fy,mv:localP.moving?1:0,a:gAct,c:gChop,av:SAVE.av|0}).catch(()=>{});
+  R.presence({role:'guest',gid:myGid,ep:V.ep,x:Math.round(localP.x*100)/100,y:Math.round(localP.y*100)/100,fx:localP.fx,fy:localP.fy,mv:localP.moving?1:0,a:gAct,c:gChop,av:SAVE.av|0,nm:cleanName(SAVE.name)}).catch(()=>{});
 }
 let prevV=null;
 function applySnap(w){
@@ -1026,11 +1090,13 @@ function applySnap(w){
   const lv=clamp(w.lv|0,0,LEVELS.length-1);
   const sl=(w.sl&&typeof w.sl==='object')?w.sl:{};const mySlot=sl[myGid]|0;
   if(w.ph==='lobby'){V=null;
-    if(mySlot>0)setJoinStatus('ok','Terhubung! Kamu '+CHEF[clamp(mySlot,1,3)].name+'. Menunggu tuan rumah memulai…');
+    const ro=Array.isArray(w.ro)?w.ro.slice(0,4).filter(r=>Array.isArray(r)&&Number.isInteger(r[0])&&r[0]>=0&&r[0]<4):[];
+    if(mySlot>0){$('#guestRoster').hidden=false;renderCards($('#guestRoster'),ro,clamp(w.mx|0,1,3),mySlot);$('#guestLv').hidden=false;$('#guestLv').innerHTML='Dapur: <b></b>';$('#guestLv').querySelector('b').textContent=LEVELS[lv].name;}
+    if(mySlot>0)setJoinStatus('ok','Terhubung! Menunggu tuan rumah memulai…');
     else if(Object.keys(sl).length>=(w.mx|0||1))setJoinStatus('bad','Room ini sudah penuh.');
     else setJoinStatus('','Menunggu tempat di room…');if(mode==='guest'&&!$('#result').hidden)$('#result').hidden=true;if(mode==='guest'&&$('#lobby').hidden){showLobby(true);}return;}
   const tiles={};(w.ti||[]).forEach(t=>{if(Array.isArray(t)&&typeof t[1]==='string')tiles[t[0]|0]={it:t[1].slice(0,4),p:+t[2]||0};});
-  const players=(w.p||[]).slice(0,4).map(a=>({x:+a[0]||1,y:+a[1]||1,fx:a[2]|0,fy:a[3]|0,it:typeof a[4]==='string'&&a[4]?a[4].slice(0,4):null,moving:!!a[5],av:clamp(a[6]|0,0,AVS.length-1),cheer:a[7]|0}));
+  const players=(w.p||[]).slice(0,4).map(a=>({x:+a[0]||1,y:+a[1]||1,fx:a[2]|0,fy:a[3]|0,it:typeof a[4]==='string'&&a[4]?a[4].slice(0,4):null,moving:!!a[5],av:clamp(a[6]|0,0,AVS.length-1),cheer:a[7]|0,nm:cleanName(a[8])}));
   if(players.length<2)return;
   if(mySlot<1||mySlot>=players.length){if(!V){setJoinStatus('bad','Permainan sudah dimulai dan room penuh. Tunggu ronde berikutnya.');}return;}
   me=mySlot;
@@ -1116,15 +1182,26 @@ function drawLogo(){
   const c=$('#logoCv').getContext('2d');c.clearRect(0,0,400,220);
   drawAvatar(c,SAVE.av|0,110,120,44,{fy:1,fx:1,band:'#F0507A',now:500,hold:true});drawAvatar(c,((SAVE.av|0)+1)%4,290,120,44,{fy:1,fx:-1,band:'#4FA3F0',now:500,hold:true,seed:2});drawItem(c,'odcm',200,150,90);drawItem(c,'ocsm',158,160,52);drawItem(c,'ods-',244,162,52);
 }
+function showNameScreen(){
+  $('#menu').hidden=true;$('#nameScreen').hidden=false;$('#nameIn').value=cleanName(SAVE.name);renderAvs();
+}
+function saveName(){const v=cleanName($('#nameIn').value);if(!v){toast('Isi namamu dulu ya');$('#nameIn').focus();return;}
+  SAVE.name=v;save();sfx.pick();$('#nameScreen').hidden=true;showMenu();}
+$('#nameOk').onclick=saveName;
+$('#nameIn').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('#nameIn').blur();saveName();}});
+$('#helloBtn').onclick=()=>{sfx.pick();showNameScreen();};
 function renderAvs(){
-  const box=$('#avs');box.innerHTML='';
+  ['#avs','#avs2'].forEach(sel=>{const box=$(sel);if(!box)return;box.innerHTML='';
   AVS.forEach((A,i)=>{const b=document.createElement('button');b.className='av'+(i===(SAVE.av|0)?' sel':'');b.setAttribute('aria-label','Koki '+A.name);
     b.appendChild(avatarCanvas(i,76,i===(SAVE.av|0)?'#F0507A':'#4FA3F0'));const t=document.createElement('span');t.textContent=A.name;b.appendChild(t);
-    b.onclick=()=>{SAVE.av=i;save();sfx.pick();renderAvs();drawLogo();};box.appendChild(b);});
+    b.onclick=()=>{SAVE.av=i;save();sfx.pick();renderAvs();drawLogo();};box.appendChild(b);});});
 }
+
 function showMenu(){
+  $('#nameScreen').hidden=true;
   musicStop();leaveRoom();mode='menu';G=null;V=null;$('#menu').hidden=false;$('#lobby').hidden=true;$('#result').hidden=true;
   renderLevels();renderFlow();drawLogo();renderAvs();renderSoundBtns();renderBook();
+  $('#helloName').textContent=SAVE.name?'Halo, '+cleanName(SAVE.name)+'!':'Isi namamu';
 }
 function startPlayView(){
   $('#menu').hidden=true;$('#lobby').hidden=true;$('#result').hidden=true;
@@ -1182,11 +1259,10 @@ function updateHostLobby(has){
   guestHere=has;
   if(mode!=='hostlobby')return;
   const cnt=Object.keys(slotOf).length;
-  setHostStatus(has?'ok':'',maxGuests>1?(cnt?cnt+' teman sudah masuk ('+(cnt+1)+' koki)':'Menunggu teman…'):(has?'Pasangan sudah masuk!':'Menunggu pasangan…'));
+  setHostStatus(has?'ok':'',maxGuests>1?(cnt?cnt+' teman sudah masuk, siap '+(cnt+1)+' koki!':'Menunggu teman…'):(has?'Pasangan sudah masuk!':'Menunggu pasangan…'));
   $('#startBtn').disabled=!has;
-  const taken=new Set(Object.values(slotOf));
-  $('#roster').innerHTML=Array.from({length:maxGuests+1},(_,i)=>`<span class="${i===0||taken.has(i)?'':'off'}"><i style="background:${CHEF[i].body}"></i>${i===0?'Kamu':taken.has(i)?CHEF[i].short:'kosong'}</span>`).join('');
-  $('#hostLvNote').textContent='Dapur: '+LEVELS[selLv].name+' (ganti di menu)';
+  renderCards($('#roster'),lobbyRoster(),maxGuests,0);
+  renderLvChips();
 }
 $('#tabHost').onclick=()=>{if(mode==='guest')leaveRoom();setTab(true);if(mode!=='hostlobby')openHostRoom();};
 $('#tabJoin').onclick=()=>{if(mode==='hostlobby')leaveRoom();mode='joinlobby';setTab(false);};
@@ -1195,18 +1271,27 @@ $('#codeIn').addEventListener('input',e=>{e.target.value=e.target.value.replace(
 $('#codeIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#joinBtn').click();});
 $('#joinBtn').onclick=async()=>{
   const code=$('#codeIn').value;if(code.length!==4){setJoinStatus('bad','Kodenya 4 angka');return;}
-  leaveRoom();mode='guest';me=1;V=null;slotOf={};
+  leaveRoom();mode='guest';me=1;V=null;slotOf={};$('#guestRoster').hidden=true;$('#guestLv').hidden=true;
   setJoinStatus('','Menyambungkan…');
   const rm=await getRoom();
   if(!rm){setJoinStatus('bad',WHY.noroom);showHelp(true);mode='joinlobby';return;}
   try{R=await rm.join('dapur-'+code);}catch(e){R=null;setJoinStatus('bad',whyCode(e,'Gagal masuk room.'));showHelp(true);mode='joinlobby';return;}
   roomCode=code;
-  R.presence({role:'guest',gid:myGid,ep:0,av:SAVE.av|0}).catch(()=>{});
+  R.presence({role:'guest',gid:myGid,ep:0,av:SAVE.av|0,nm:cleanName(SAVE.name)}).catch(()=>{});
   setJoinStatus('','Mencari room '+code+'…');
   watchHost();
   setTimeout(()=>{if(mode==='guest'&&!V&&!(R&&R.peers().some(p=>!p.sameTab&&p.presence&&p.presence.role==='host')))setJoinStatus('bad','Room '+code+' belum ada. Cek kodenya, atau minta pasanganmu buat room dulu.');},6000);
 };
 $('#startBtn').onclick=()=>{sfx.serve();startHostGame();};
+function renderLvChips(){const box=$('#lvChips');box.innerHTML='';
+  LEVELS.forEach((L,i)=>{const b=document.createElement('button');b.textContent=L.name;b.setAttribute('aria-pressed',i===selLv);b.disabled=!unlocked(i);
+    b.onclick=()=>{selLv=i;sfx.pick();renderLvChips();renderLevels();lastSnap=0;};box.appendChild(b);});}
+$('#shareBtn').onclick=async()=>{
+  const url=IN_CLAUDE?'https://ranggaramadhan86jambi.github.io/pyookk/':location.href.split('#')[0].split('?')[0];
+  const txt='Ayo main Pyookk bareng! Buka '+url+' lalu pilih Gabung dan ketik kode '+roomCode+'.';
+  try{if(!IN_CLAUDE&&navigator.share){await navigator.share({title:'Pyookk',text:txt});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+  try{await navigator.clipboard.writeText(txt);toast('Undangan disalin, tinggal tempel di WA');}catch(e){toast('Kode room: '+roomCode);}
+};
 function leaveRoom(){if(R){try{R.leave();}catch(e){}}R=null;guestHere=false;}
 
 /* result */
@@ -1265,7 +1350,7 @@ function frame(now){
     sendGuest(false);
     const k=1-Math.pow(.001,dt);
     const pl=V.players.map((hp,i)=>{
-      if(i===me)return Object.assign({},localP,{it:hp.it,av:SAVE.av|0,cheer:hp.cheer});
+      if(i===me)return Object.assign({},localP,{it:hp.it,av:SAVE.av|0,cheer:hp.cheer,nm:cleanName(SAVE.name)});
       let sm=smooth[i];if(!sm||Math.hypot(sm.x-hp.x,sm.y-hp.y)>2)sm=smooth[i]={x:hp.x,y:hp.y};
       sm.x+=(hp.x-sm.x)*k;sm.y+=(hp.y-sm.y)*k;return Object.assign({},hp,{x:sm.x,y:sm.y});});
     renderOrders(V.orders);renderHud(V);render(V,pl,now);
@@ -1275,6 +1360,12 @@ function frame(now){
 
 /* ================= boot ================= */
 showMenu();resize();requestAnimationFrame(frame);
+if(!cleanName(SAVE.name))showNameScreen();
+/* iPhone: stop double-tap and pinch zoom while playing */
+document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
+document.addEventListener('dblclick',e=>e.preventDefault(),{passive:false});
+let lastTouchEnd=0;
+document.addEventListener('touchend',e=>{const n=Date.now();const t=e.target;if(n-lastTouchEnd<350&&!(t&&t.closest&&t.closest('input,textarea')))e.preventDefault();lastTouchEnd=n;},{passive:false});
 document.addEventListener('visibilitychange',()=>{last=performance.now();});
 })();
 </script>
