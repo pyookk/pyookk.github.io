@@ -299,8 +299,8 @@ button:focus-visible{outline:3px solid var(--butter);outline-offset:2px}
     <div class="help" id="help">
       <b>Main bareng tanpa akun</b>
       <span>Semua pemain buka versi website ini di HP masing-masing, lalu Buat room / Gabung:</span>
-      <a class="weblink" href="https://ranggaramadhan86jambi.github.io/pyookk/" target="_blank" rel="noopener">Buka Pyookk versi website</a>
-      <code class="urltext">https://ranggaramadhan86jambi.github.io/pyookk/</code>
+      <a class="weblink" href="https://pyookk.github.io/" target="_blank" rel="noopener">Buka Pyookk versi website</a>
+      <code class="urltext">https://pyookk.github.io/</code>
       <b style="margin-top:6px">Atau tetap di versi Claude</b>
       <ol>
         <li>Kalian berdua <b>masuk ke akun Claude</b> di HP masing-masing (buka claude.ai di browser atau aplikasi Claude).</li>
@@ -1287,7 +1287,7 @@ function renderLvChips(){const box=$('#lvChips');box.innerHTML='';
   LEVELS.forEach((L,i)=>{const b=document.createElement('button');b.textContent=L.name;b.setAttribute('aria-pressed',i===selLv);b.disabled=!unlocked(i);
     b.onclick=()=>{selLv=i;sfx.pick();renderLvChips();renderLevels();lastSnap=0;};box.appendChild(b);});}
 $('#shareBtn').onclick=async()=>{
-  const url=IN_CLAUDE?'https://ranggaramadhan86jambi.github.io/pyookk/':location.href.split('#')[0].split('?')[0];
+  const url=IN_CLAUDE?'https://pyookk.github.io/':location.href.split('#')[0].split('?')[0];
   const txt='Ayo main Pyookk bareng! Buka '+url+' lalu pilih Gabung dan ketik kode '+roomCode+'.';
   try{if(!IN_CLAUDE&&navigator.share){await navigator.share({title:'Pyookk',text:txt});return;}}catch(e){if(e&&e.name==='AbortError')return;}
   try{await navigator.clipboard.writeText(txt);toast('Undangan disalin, tinggal tempel di WA');}catch(e){toast('Kode room: '+roomCode);}
